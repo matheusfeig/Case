@@ -1,0 +1,13 @@
+A escolha e utilização das ferramentas no pipeline apresentado se deu por serem todas da AWS, serem escaláveis e com otimização de custos, além disso também por priorizarmos estratégia serveless, como no caso do AWS Lambda e o AWS Glue. Com o S3 criamos um Data Lake que pode ser utilizado para centralizarmos várias fontes de dados, o Glue por fazer o ETL de forma simples e funcional, podendo utilizá-lo para transformar os dados, mascará-los e o Redshift como o destino final sendo o Data Warehouse.
+
+Fluxo do Pipeline
+
+1 - Os dados são lidos no formato JSON com origem no DynamoDB.
+
+2 - Criamos uma função Lambda configurando um acionador quando ocorrer eventos no DynamoDB, essa função também terá o código para ler os dados do evento, transformá-los em CSV e fazer o upload no S3.
+
+3 - No S3, sendo um Data Lake, configuramos um Bucket no S3 para armazenar os dados CSV oriundos do banco de dados.
+
+4 - Criamos um job de ETL no Glue configurando o job para ler os dados do S3, fazer as necessárias transformações e carregar no Redshift.
+
+5 - No Redshift, sendo o Data Warehouse, criamos a estrutura que receberá os dados do S3 já com as devidas transformações para serem consumidos.
